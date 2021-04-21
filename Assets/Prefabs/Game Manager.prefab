@@ -43,4 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767a904c14ee36a44a5961efa70a8fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetFramerate: 60
+  targetFramerate: 144
+  showCursor: 1

@@ -36,20 +36,19 @@ public class GrabberController : MonoBehaviour
 
     private State state;
 
-    private Transform target;
+    private Transform target, blockParent;
 
     private GameObject block;
     private BlockController blockController;
     private BoxCollider2D parentCollider, blockCollider;
 
-    private Rigidbody2D blockRigidbody;
+    private Rigidbody2D parentRigidbody, blockRigidbody;
+
+    private float parentGravityScale, parentDrag;
 
     void Awake()
     {
-        renderer = GetComponent<SpriteRenderer>();
-        parentCollider = transform.parent.GetComponent<BoxCollider2D>();
-        grabberPosition = Vector3.zero;
-        previousMousePosition = Input.mousePosition;
+        Initialize();
         BeginSearching();
     }
 
@@ -66,6 +65,17 @@ public class GrabberController : MonoBehaviour
         UpdateSpritePositionAndRotation();
         UpdatePreviousMousePosition();
         UpdateBlock();
+    }
+
+    private void Initialize()
+    {
+        renderer = GetComponent<SpriteRenderer>();
+        parentCollider = transform.parent.GetComponent<BoxCollider2D>();
+        parentRigidbody = transform.parent.GetComponent<Rigidbody2D>();
+        parentGravityScale = parentRigidbody.gravityScale;
+        parentDrag = parentRigidbody.drag;
+        grabberPosition = Vector3.zero;
+        previousMousePosition = Input.mousePosition;
     }
 
     private void BeginSearching()
@@ -104,28 +114,90 @@ public class GrabberController : MonoBehaviour
                 DropBlock();
     }
 
-    private void GrabBlock()
+    private void SaveBlock()
     {
         block = target.gameObject;
+        blockParent = block.transform.parent;
         blockController = block.GetComponent<BlockController>();
         blockCollider = block.GetComponent<BoxCollider2D>();
         blockRigidbody = block.GetComponent<Rigidbody2D>();
-        blockController.OnGrab();
+    }
+
+    private void DiscardBlock()
+    {
+        block = null;
+        blockController = null;
+        blockCollider = null;
+        blockRigidbody = null;
+    }
+
+    private void DisableBlockProperties()
+    {
+        blockCollider.enabled = false;
+        blockRigidbody.isKinematic = true;
         block.transform.parent = transform.parent;
+        blockRigidbody.velocity = Vector2.zero;
+        blockController.Disable();
+    }
+
+    private void RestoreBlockProperties()
+    {
+        blockCollider.enabled = true;
+        blockRigidbody.isKinematic = false;
+        block.transform.parent = blockParent;
+        blockRigidbody.velocity = parentRigidbody.velocity;
+        blockController.Restore();
+    }
+
+    private void InheritBlockProperties()
+    {
+        parentRigidbody.mass += blockRigidbody.mass;
+        parentRigidbody.gravityScale = blockRigidbody.gravityScale;
+        parentRigidbody.drag = blockRigidbody.drag;
+    }
+
+    private void RemoveInheritedBlockProperties()
+    {
+        parentRigidbody.mass -= blockRigidbody.mass;
+        parentRigidbody.gravityScale = parentGravityScale;
+        parentRigidbody.drag = parentDrag;
+    }
+
+    private void AddForceToBlock()
+    {
+        blockRigidbody.AddForce(grabberPosition * force);
+    }
+
+    private void DisableParentCollisions()
+    {
+        Physics2D.IgnoreCollision(parentCollider, blockCollider, true);
+    }
+
+    private void EnableParentCollisions()
+    {
+        Physics2D.IgnoreCollision(parentCollider, blockCollider, false);
+    }
+
+    private void GrabBlock()
+    {
+        SaveBlock();
+        DisableBlockProperties();
+        InheritBlockProperties();
         BeginHolding();
     }
 
     private void ReleaseBlock()
     {
-        blockController.OnRelease();
-        Physics2D.IgnoreCollision(parentCollider, blockCollider, true);
+        RemoveInheritedBlockProperties();
+        RestoreBlockProperties();
+        DisableParentCollisions();
         BeginHovering();
     }
 
     private void ThrowBlock()
     {
         ReleaseBlock();
-        blockRigidbody.AddForce(grabberPosition * force);
+        AddForceToBlock();
     }
 
     private void DropBlock()
@@ -149,11 +221,8 @@ public class GrabberController : MonoBehaviour
 
     private void ExpelBlock()
     {
-        Physics2D.IgnoreCollision(parentCollider, blockCollider, false);
-        block = null;
-        blockController = null;
-        blockCollider = null;
-        blockRigidbody = null;
+        EnableParentCollisions();
+        DiscardBlock();
     }
 
     private bool BlockIsOutsideParent()

@@ -22,22 +22,40 @@ public class JumpController : MonoBehaviour
 
     void Update()
     {
-        if (TryingToJump() && CanJump())
-            Jump();
+        if (TryingToJumpUp() && CanJumpUp())
+            JumpUp();
+        else if (TryingToJumpDown() && CanJumpDown())
+            JumpDown();
     }
 
-    private bool TryingToJump()
+    private bool TryingToJumpUp()
     {
         return Input.GetKeyDown("space") || Input.GetKeyDown("w") || Input.GetKeyDown("up");
     }
 
-    private bool CanJump()
+    private bool TryingToJumpDown()
+    {
+        return Input.GetKeyDown("space") || Input.GetKeyDown("s") || Input.GetKeyDown("down");
+    }
+
+    private bool CanJumpUp()
     {
         return Physics2D.BoxCast(collider.bounds.center, sensorSize, 0, Vector2.down, sensorThreshold.y).collider != null;
     }
 
-    private void Jump()
+    private bool CanJumpDown()
+    {
+        return Physics2D.BoxCast(collider.bounds.center, sensorSize, 0, Vector2.up, sensorThreshold.y).collider != null;
+    }
+
+    private void JumpUp()
     {
         rigidbody.AddForce(Vector2.up * force);
+    }
+
+    private void JumpDown()
+    {
+        rigidbody.AddForce(Vector2.down * force);
+
     }
 }

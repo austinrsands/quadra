@@ -12,5 +12,6 @@ public class GameManager : MonoBehaviour
     {
         Application.targetFrameRate = targetFramerate;
         Cursor.visible = showCursor;
+        DontDestroyOnLoad(this);
     }
 }

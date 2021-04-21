@@ -28,7 +28,7 @@ public class JumpController : MonoBehaviour
 
     private bool TryingToJump()
     {
-        return Input.GetKeyDown("space");
+        return Input.GetKeyDown("space") || Input.GetKeyDown("w") || Input.GetKeyDown("up");
     }
 
     private bool CanJump()

@@ -24,10 +24,10 @@ public class FollowController : MonoBehaviour
         transform.position = Vector3.Slerp(transform.position, transform.position + move, speed * Time.unscaledDeltaTime);
     }
 
-    private Vector2 GetMove()
+    private Vector3 GetMove()
     {
-        Vector2 move = Vector3.zero;
-        Vector2 difference = target.position - transform.position;
+        Vector3 move = Vector3.zero;
+        Vector3 difference = target.position - transform.position;
 
         if (difference.x > tolerance.x)
             move.x = difference.x - tolerance.x;

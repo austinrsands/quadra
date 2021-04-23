@@ -4,14 +4,19 @@ using UnityEngine;
 
 public class FollowController : MonoBehaviour
 {
-    [SerializeField]
-    private Transform target;
 
     [SerializeField]
     private float speed = 2f;
 
     [SerializeField]
     private Vector2 tolerance = new Vector2(1, 1);
+
+    private Transform target;
+
+    void Awake()
+    {
+        target = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     void LateUpdate()
     {

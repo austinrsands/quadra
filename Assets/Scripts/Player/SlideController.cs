@@ -25,6 +25,9 @@ public class SlideController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!GameController.InputIsEnabled)
+            return;
+
         if (TryingToSlide() && CanSlide())
             Slide();
     }

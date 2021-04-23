@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class StoppingBlockController : BlockController
+public class StoppingBlockController : MonoBehaviour, IBlockController
 {
     [SerializeField]
     private float stoppingSpeed = 0.001f;
@@ -33,9 +33,13 @@ public class StoppingBlockController : BlockController
         return !stopped && rigidbody.velocity.magnitude < stoppingSpeed;
     }
 
-    public override void Restore()
+    public void Disable()
     {
-        base.Restore();
+
+    }
+
+    public void Restore()
+    {
         stopped = false;
     }
 }

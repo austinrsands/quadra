@@ -22,6 +22,9 @@ public class JumpController : MonoBehaviour
 
     void Update()
     {
+        if (!GameController.InputIsEnabled)
+            return;
+
         if (TryingToJumpUp() && CanJumpUp())
             JumpUp();
         else if (TryingToJumpDown() && CanJumpDown())

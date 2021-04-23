@@ -19,7 +19,7 @@ public class GrabberController : MonoBehaviour
     private Sprite dot, selection, arrow;
 
     [SerializeField]
-    private LayerMask blockLayer;
+    private LayerMask raycastLayer;
 
     private Vector3 grabberPosition;
 
@@ -39,7 +39,7 @@ public class GrabberController : MonoBehaviour
     private Transform target, blockParent;
 
     private GameObject block;
-    private BlockController blockController;
+    private IBlockController blockController;
     private BoxCollider2D parentCollider, blockCollider;
 
     private Rigidbody2D parentRigidbody, blockRigidbody;
@@ -59,10 +59,15 @@ public class GrabberController : MonoBehaviour
 
     void LateUpdate()
     {
-        HandleMouseClick();
+        if (GameController.InputIsEnabled)
+            HandleMouseClick();
+
         UpdateCurrentMousePosition();
         UpdateGrabberPosition();
-        UpdateSpritePositionAndRotation();
+
+        if (GameController.InputIsEnabled)
+            UpdateSpritePositionAndRotation();
+
         UpdatePreviousMousePosition();
         UpdateBlock();
     }
@@ -118,7 +123,7 @@ public class GrabberController : MonoBehaviour
     {
         block = target.gameObject;
         blockParent = block.transform.parent;
-        blockController = block.GetComponent<BlockController>();
+        blockController = block.GetComponent<IBlockController>();
         blockCollider = block.GetComponent<BoxCollider2D>();
         blockRigidbody = block.GetComponent<Rigidbody2D>();
     }
@@ -232,7 +237,17 @@ public class GrabberController : MonoBehaviour
 
     private void UpdateTarget()
     {
-        target = block?.transform ?? Physics2D.Raycast(transform.parent.position, grabberPosition, grabberPosition.magnitude, blockLayer).collider?.transform;
+
+        if (block?.transform != null)
+            target = block.transform;
+        else
+        {
+            RaycastHit2D hit = Physics2D.Raycast(transform.parent.position, grabberPosition, grabberPosition.magnitude, raycastLayer);
+            if (hit.collider != null && hit.collider.CompareTag("Block"))
+                target = hit.collider.transform;
+            else
+                target = null;
+        }
 
         if (state == State.Searching && target != null)
             BeginHovering();

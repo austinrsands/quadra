@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6332519220111136565}
   - component: {fileID: 6332519220111136564}
   - component: {fileID: 6332519220111136563}
-  - component: {fileID: 6332519220111136562}
+  - component: {fileID: 2090021896326222606}
   m_Layer: 6
   m_Name: Bouncy Block
   m_TagString: Block
@@ -132,7 +132,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &6332519220111136562
+--- !u!114 &2090021896326222606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,6 +141,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6332519220111136561}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824104fee99ced949943a455db105733, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fea527c7cff1114f9dbfd9301c956a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

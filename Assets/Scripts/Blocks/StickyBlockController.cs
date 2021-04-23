@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class StickyBlockController : BlockController
+public class StickyBlockController : MonoBehaviour, IBlockController
 {
 
     private new Rigidbody2D rigidbody;
@@ -21,5 +21,15 @@ public class StickyBlockController : BlockController
     {
         if (collision.collider.CompareTag("Environment"))
             Stick();
+    }
+
+    public void Disable()
+    {
+
+    }
+
+    public void Restore()
+    {
+
     }
 }

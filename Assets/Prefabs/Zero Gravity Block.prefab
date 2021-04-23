@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2008429112960038944}
   - component: {fileID: 2008429112960038945}
   - component: {fileID: 2008429112960038950}
-  - component: {fileID: 2008429112960038951}
+  - component: {fileID: 2524213468769019511}
   m_Layer: 6
   m_Name: Zero Gravity Block
   m_TagString: Block
@@ -132,7 +132,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &2008429112960038951
+--- !u!114 &2524213468769019511
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,6 +141,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2008429112960038948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824104fee99ced949943a455db105733, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fea527c7cff1114f9dbfd9301c956a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 126342917624560897}
   - component: {fileID: 126342917624560896}
   - component: {fileID: 126342917624560899}
-  - component: {fileID: 126342917624560898}
+  - component: {fileID: 386898467868854016}
   m_Layer: 6
   m_Name: Reverse Gravity Block
   m_TagString: Block
@@ -132,7 +132,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!114 &126342917624560898
+--- !u!114 &386898467868854016
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -141,6 +141,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 126342917624560901}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 824104fee99ced949943a455db105733, type: 3}
+  m_Script: {fileID: 11500000, guid: 4fea527c7cff1114f9dbfd9301c956a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

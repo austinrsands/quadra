@@ -59,15 +59,17 @@ public class GrabberController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (GameController.InputIsEnabled)
+        if (GameController.Playing)
+        {
+            renderer.enabled = true;
             HandleMouseClick();
+        }
+        else
+            renderer.enabled = false;
 
         UpdateCurrentMousePosition();
         UpdateGrabberPosition();
-
-        if (GameController.InputIsEnabled)
-            UpdateSpritePositionAndRotation();
-
+        UpdateSpritePositionAndRotation();
         UpdatePreviousMousePosition();
         UpdateBlock();
     }

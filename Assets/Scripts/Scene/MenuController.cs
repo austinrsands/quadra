@@ -1,7 +1,8 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
+[RequireComponent(typeof(Animator))]
 public class MenuController : MonoBehaviour
 {
     [SerializeField]
@@ -10,49 +11,60 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     private Button previousButton, nextButton;
 
-    private int currentLevel, maxLevel;
+    [SerializeField]
+    private TextMeshProUGUI levelNameText;
+
+    private Animator fadeAnimator;
+
+    private int shownLevel;
 
     void Awake()
     {
+        fadeAnimator = GetComponent<Animator>();
         Application.targetFrameRate = targetFramerate;
         Cursor.visible = true;
-        maxLevel = PlayerPrefs.GetInt("Max Level", 0);
-        currentLevel = PlayerPrefs.GetInt("Current Level", maxLevel);
+        shownLevel = LevelManager.GetCurrentLevel();
         UpdateUI();
     }
 
     private void UpdateUI()
     {
-        previousButton.interactable = currentLevel > 0;
-        nextButton.interactable = currentLevel < maxLevel;
+        previousButton.interactable = shownLevel > 0;
+        nextButton.interactable = LevelManager.LevelExistsAndIsUnlocked(shownLevel + 1);
+        levelNameText.SetText(LevelManager.GetLevelName(shownLevel));
     }
 
     public void Play()
     {
-        string levelName = GetLevelName();
-        SceneManager.LoadScene(levelName);
+        fadeAnimator.SetTrigger("Fade Out");
+    }
+
+    public void LoadLevel()
+    {
+        LevelManager.LoadLevel(shownLevel);
     }
 
     public void Next()
     {
-        if (currentLevel < maxLevel)
+        if (LevelManager.LevelExistsAndIsUnlocked(shownLevel + 1))
         {
-            currentLevel++;
+            shownLevel++;
             UpdateUI();
         }
     }
 
     public void Previous()
     {
-        if (currentLevel > 0)
+        if (shownLevel > 0)
         {
-            currentLevel--;
+            shownLevel--;
             UpdateUI();
         }
     }
 
-    public string GetLevelName()
+    public void Quit()
     {
-        return currentLevel == 0 ? "Tutorial" : $"Level {currentLevel}";
+        LevelManager.Save();
+        Application.Quit();
     }
 }

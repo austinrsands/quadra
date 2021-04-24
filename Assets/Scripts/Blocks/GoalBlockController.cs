@@ -11,7 +11,7 @@ public class GoalBlockController : MonoBehaviour, IBlockController
 
     public void Disable()
     {
-        gameController.Success();
+        gameController.Outro();
     }
 
     public void Restore()

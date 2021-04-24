@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(SpriteRenderer), typeof(AudioSource))]
 public class GrabberController : MonoBehaviour
 {
     [SerializeField]
@@ -24,6 +24,7 @@ public class GrabberController : MonoBehaviour
     private Vector3 grabberPosition;
 
     private new SpriteRenderer renderer;
+    private AudioSource audioSource;
 
     private enum State
     {
@@ -73,6 +74,7 @@ public class GrabberController : MonoBehaviour
     private void Initialize()
     {
         renderer = GetComponent<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
         parentCollider = transform.parent.GetComponent<BoxCollider2D>();
         parentRigidbody = transform.parent.GetComponent<Rigidbody2D>();
         parentGravityScale = parentRigidbody.gravityScale;
@@ -182,6 +184,7 @@ public class GrabberController : MonoBehaviour
 
     private void GrabBlock()
     {
+        PlayGrabSound();
         SaveBlock();
         DisableBlockProperties();
         InheritBlockProperties();
@@ -198,12 +201,14 @@ public class GrabberController : MonoBehaviour
 
     private void ThrowBlock()
     {
+        PlayThrowSound();
         ReleaseBlock();
         AddForceToBlock();
     }
 
     private void DropBlock()
     {
+        PlayDropSound();
         ReleaseBlock();
     }
 
@@ -294,5 +299,23 @@ public class GrabberController : MonoBehaviour
         transform.localPosition = grabberPosition;
         float targetAngle = Mathf.Atan2(grabberPosition.y, grabberPosition.x) * Mathf.Rad2Deg;
         transform.localRotation = Quaternion.Euler(0, 0, targetAngle - 45);
+    }
+
+    private void PlayGrabSound()
+    {
+        audioSource.pitch = 1.2f;
+        audioSource.Play();
+    }
+
+    private void PlayDropSound()
+    {
+        audioSource.pitch = 0.7f;
+        audioSource.Play();
+    }
+
+    private void PlayThrowSound()
+    {
+        audioSource.pitch = 0.4f;
+        audioSource.Play();
     }
 }

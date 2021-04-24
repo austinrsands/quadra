@@ -23,6 +23,7 @@ public class MenuController : MonoBehaviour
         fadeAnimator = GetComponent<Animator>();
         Application.targetFrameRate = targetFramerate;
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         shownLevel = LevelManager.GetCurrentLevel();
         UpdateUI();
     }

@@ -96,7 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grabberRadius: 1.5
-  sensitivity: 0.01
+  sensitivity: 0.3
   speed: 80
   force: 90
   dot: {fileID: 21300000, guid: 665613d858c0b77468a5a6dedcbfc2ae, type: 3}

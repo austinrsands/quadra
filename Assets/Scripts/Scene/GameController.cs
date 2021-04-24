@@ -44,6 +44,7 @@ public class GameController : MonoBehaviour
         Application.targetFrameRate = targetFramerate;
         nextButton.interactable = LevelManager.NextLevelExists();
         titleText.SetText(LevelManager.GetCurrentLevelName());
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public void Intro()

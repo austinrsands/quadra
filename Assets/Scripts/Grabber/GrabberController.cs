@@ -25,8 +25,6 @@ public class GrabberController : MonoBehaviour
 
     private new SpriteRenderer renderer;
 
-    private Vector3 previousMousePosition, currentMousePosition;
-
     private enum State
     {
         Searching,
@@ -67,10 +65,8 @@ public class GrabberController : MonoBehaviour
         else
             renderer.enabled = false;
 
-        UpdateCurrentMousePosition();
         UpdateGrabberPosition();
         UpdateSpritePositionAndRotation();
-        UpdatePreviousMousePosition();
         UpdateBlock();
     }
 
@@ -82,7 +78,6 @@ public class GrabberController : MonoBehaviour
         parentGravityScale = parentRigidbody.gravityScale;
         parentDrag = parentRigidbody.drag;
         grabberPosition = Vector3.zero;
-        previousMousePosition = Input.mousePosition;
     }
 
     private void BeginSearching()
@@ -261,19 +256,9 @@ public class GrabberController : MonoBehaviour
 
     }
 
-    private void UpdateCurrentMousePosition()
-    {
-        currentMousePosition = Input.mousePosition;
-    }
-
-    private void UpdatePreviousMousePosition()
-    {
-        previousMousePosition = currentMousePosition;
-    }
-
     private void UpdateGrabberPosition()
     {
-        Vector3 mouseDelta = currentMousePosition - previousMousePosition;
+        Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
         Vector3 grabberDelta = mouseDelta * sensitivity;
         grabberPosition = Vector3.ClampMagnitude(grabberPosition + grabberDelta, grabberRadius);
     }

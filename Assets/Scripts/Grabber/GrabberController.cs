@@ -240,7 +240,9 @@ public class GrabberController : MonoBehaviour
     private void UpdateTarget()
     {
 
-        if (block?.transform != null)
+        Transform previousTarget = target;
+
+        if (block != null)
             target = block.transform;
         else
         {
@@ -251,10 +253,12 @@ public class GrabberController : MonoBehaviour
                 target = null;
         }
 
+
         if (state == State.Searching && target != null)
             BeginHovering();
-        else if (state == State.Hovering && target == null)
+        else if (state == State.Hovering && (target == null || previousTarget != target))
             BeginSearching();
+
     }
 
     private void UpdateCurrentMousePosition()

@@ -223,6 +223,7 @@ MonoBehaviour:
   targetFramerate: 144
   titleText: {fileID: 0}
   nextButton: {fileID: 0}
+  GUIAnimator: {fileID: 0}
 --- !u!95 &468404711
 Animator:
   serializedVersion: 3

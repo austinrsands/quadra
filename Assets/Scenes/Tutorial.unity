@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ceed902cdab7bc45800c3dc8667ce4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  message: Use your WASD keys to move around and jump
+  message: Use your WASD or Arrow keys to move around and jump
   text: {fileID: 2052726200}
   animator: {fileID: 137539487}
 --- !u!1 &329180824

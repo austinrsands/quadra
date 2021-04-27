@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D), typeof(AudioSource))]
 public class JumpController : MonoBehaviour
 {
     [SerializeField]
@@ -11,12 +11,14 @@ public class JumpController : MonoBehaviour
 
     private new Rigidbody2D rigidbody;
     private new BoxCollider2D collider;
+    private AudioSource audioSource;
     private Vector2 sensorSize;
 
     void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<BoxCollider2D>();
+        audioSource = GetComponent<AudioSource>();
         sensorSize = (Vector2)collider.bounds.size - sensorThreshold;
     }
 
@@ -53,11 +55,17 @@ public class JumpController : MonoBehaviour
     private void JumpUp()
     {
         rigidbody.AddForce(Vector2.up * force);
+        PlaySound();
     }
 
     private void JumpDown()
     {
         rigidbody.AddForce(Vector2.down * force);
+        PlaySound();
+    }
 
+    private void PlaySound()
+    {
+        audioSource.Play();
     }
 }
